@@ -32,8 +32,8 @@ Options:
 The default configuration file is garrison.cfg.  Garrison assumes that the configuration file is in the current directory.
 An example configuration file:
 
-\# Some comment in your garrison.cfg
 ```
+\# Some comment in your garrison.cfg
 Input = .
 Output = /home/garrison\_user
 Include = "^\\.vim\\/" "^\\.bashrc" "^\\.files"
