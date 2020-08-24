@@ -11,7 +11,7 @@ Garrison is an open-sourced project that is aimed at making Linux config deploym
 ## Install
 
 ## Usage
-garrison [options]
+```garrison [options]```
 
 Options:
 
