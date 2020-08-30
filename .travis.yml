@@ -5,7 +5,7 @@ services:
 
 before_install:
 - docker build --no-cache -t garrison:${TRAVIS_COMMIT} .
-- docker run -it garrison:${TRAVIS_COMMIT}
+- docker run garrison:${TRAVIS_COMMIT}
 
 script:
   - ls
