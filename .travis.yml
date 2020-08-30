@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-- docker build --no-cache -t ${TRAVIS_REPO_SLUG}:${TRAVIS_COMMIT} .
+- docker build --no-cache -t garrison:${TRAVIS_COMMIT} .
 - docker run garrison:${TRAVIS_COMMIT}
 
 script:

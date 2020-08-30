@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/{FueledByJordan}/{garrison}.png?branch=master)](https://travis-ci.org/{FueledByJordan}/{garrison})
+
 # What is Garrison?
 Garrison is an open-sourced project that is aimed at making Linux config deployment less painful.
 
