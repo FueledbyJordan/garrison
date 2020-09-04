@@ -58,3 +58,8 @@ std::string ArgParser::ToString()
     }
     return result;
 }
+
+const cxxopts::OptionValue & ArgParser::operator[](const std::string & option) const
+{
+    return (*_args)[option];
+}

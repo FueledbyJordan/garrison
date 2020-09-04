@@ -14,6 +14,8 @@ public:
     void Read() override;
     std::string ToString();
 
+    const cxxopts::OptionValue & operator[](const std::string & option) const;
+
 private:
 
     void printHelpMessage();
