@@ -48,3 +48,13 @@ void ArgParser::printHelpMessage()
     std::cout << _opts->help() << std::endl;
     exit(0);
 }
+
+std::string ArgParser::ToString()
+{
+    std::string result = "";
+    for (auto arg : _args->arguments())
+    {
+        result += arg.key() + "\t:\t" + arg.value() + "\n";
+    }
+    return result;
+}
