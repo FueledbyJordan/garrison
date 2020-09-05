@@ -28,6 +28,7 @@ void FileParser::Read()
     while (std::getline(reader, line))
     {
         parseResult = parseLine(line, lineNumber++);
+		//TODO: Place parseResult in one of the containers declared in the private region of the header.
     }
 
     reader.close();
