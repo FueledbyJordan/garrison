@@ -1,4 +1,5 @@
 #include "ArgParser.hpp"
+#include "GarrisonGlobals.hpp"
 #include <iostream>
 
 ArgParser::ArgParser(int argc, char ** argv) : _argc(argc), _argv(argv)
@@ -34,11 +35,13 @@ void ArgParser::Read()
     {
         std::cout << "Error, usage is:" << std::endl << std::endl;
         this->printHelpMessage();
+        exit(Garrison::CLI_ARG_ERR);
     }
 
     if (_args->count("help"))
     {
         this->printHelpMessage();
+        exit(Garrison::NO_ERR);
     }
 
 }
@@ -46,7 +49,6 @@ void ArgParser::Read()
 void ArgParser::printHelpMessage()
 {
     std::cout << _opts->help() << std::endl;
-    exit(0);
 }
 
 std::string ArgParser::ToString()
