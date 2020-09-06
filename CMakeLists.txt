@@ -4,6 +4,7 @@ project(garrison)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+configure_file(${CMAKE_SOURCE_DIR}/garrison.cfg ${CMAKE_BINARY_DIR} COPYONLY)
 
 set(LIB_FILE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(SRC_FILES
@@ -13,6 +14,7 @@ set(SRC_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileParser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Parser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ParserBase.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Utilities.cpp
 )
 
 add_library(garrison_library SHARED
