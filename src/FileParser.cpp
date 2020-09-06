@@ -105,3 +105,13 @@ bool FileParser::validConfigActionOperation(std::string op)
 {
     return (_VALID_CFG_ACTION_OPS.count(op) > 0);
 }
+
+std::unordered_map<std::string, std::string> FileParser::IoDirections()
+{
+    return _ioDirections;
+}
+
+std::vector<std::pair<std::string, std::string>> FileParser::FileOperations()
+{
+    return _fileOperations;
+}

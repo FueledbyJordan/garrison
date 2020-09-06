@@ -13,6 +13,8 @@ public:
     FileParser(const std::string & configFilePath);
     ~FileParser();
     void Read() override;
+    std::unordered_map<std::string, std::string> IoDirections() override;
+    std::vector<std::pair<std::string, std::string>> FileOperations() override;
 
     std::string ToString();
 

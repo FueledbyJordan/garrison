@@ -13,4 +13,12 @@ namespace Garrison
         OUTPUT_FILE_EXISTS
     };
 
+//Possibly need to add an ignore operation.
+    enum OPERATION_TYPE
+    {
+        NO_OP = 0,
+        LINK,
+        COPY
+    };
+
 }
