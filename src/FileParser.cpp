@@ -6,11 +6,18 @@
 
 FileParser::FileParser(const std::string & configFilePath) : _configFilePath(configFilePath)
 {
+    this->initialize();
     this->Read();
-    std::cout << this->ToString();
+//    std::cout << this->ToString();
 }
 
 FileParser::~FileParser(){}
+
+void FileParser::initialize()
+{
+    _VALID_CFG_OPS.insert(_VALID_CFG_IO_OPS.begin(), _VALID_CFG_IO_OPS.end());
+    _VALID_CFG_OPS.insert(_VALID_CFG_ACTION_OPS.begin(), _VALID_CFG_ACTION_OPS.end());
+}
 
 void FileParser::Read()
 {
@@ -28,7 +35,16 @@ void FileParser::Read()
     while (std::getline(reader, line))
     {
         parseResult = parseLine(line, lineNumber++);
-		//TODO: Place parseResult in one of the containers declared in the private region of the header.
+        if (validConfigOperation(parseResult.first))
+        {
+            if (validConfigIoOperation(parseResult.first))
+            {
+                _ioDirections[parseResult.first] = parseResult.second;
+            } else if(validConfigActionOperation(parseResult.first))
+            {
+                _fileOperations.push_back(parseResult);
+            }
+        }
     }
 
     reader.close();
@@ -37,11 +53,19 @@ void FileParser::Read()
 
 std::string FileParser::ToString()
 {
-    std::string retval = "";
-    for (auto const & result : _parseResults)
+    std::string retval = "IO:\n";
+    for (auto const & result : _ioDirections)
     {
-        retval += result.first + "(" + std::to_string(result.first.length()) + ")" + "\t:\t" + result.second + "(" + std::to_string(result.second.length()) + ")" + "\n";
+        retval += result.first + "\t:\t" + result.second + "\n";
     }
+
+    retval += "\nOps:\n";
+
+    for (auto const & result : _fileOperations)
+    {
+        retval += result.first + "\t:\t" + result.second + "\n";
+    }
+
     return retval;
 }
 
@@ -65,4 +89,19 @@ std::pair<std::string, std::string> FileParser::parseLine(const std::string & li
 
     return std::pair<std::string, std::string>(key, val);
 
+}
+
+bool FileParser::validConfigOperation(std::string op)
+{
+    return (_VALID_CFG_OPS.count(op) > 0);
+}
+
+bool FileParser::validConfigIoOperation(std::string op)
+{
+    return (_VALID_CFG_IO_OPS.count(op) > 0);
+}
+
+bool FileParser::validConfigActionOperation(std::string op)
+{
+    return (_VALID_CFG_ACTION_OPS.count(op) > 0);
 }
