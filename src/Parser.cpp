@@ -7,3 +7,13 @@ Parser::Parser(int argc, char ** argv)
 }
 
 Parser::~Parser(){}
+
+ArgParser & Parser::Cli() const
+{
+    return *_ap;
+}
+
+FileParser & Parser::Cfg() const
+{
+    return *_fp;
+}
