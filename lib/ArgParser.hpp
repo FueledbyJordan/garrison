@@ -14,8 +14,8 @@ public:
     void Read() override;
 
     //TODO: implement these
-    std::unordered_map<std::string, std::string> IoDirections() override{};
-    std::vector<std::pair<std::string, std::string>> FileOperations() override{};
+    std::unordered_map<std::string, std::string> IoDirections() override;
+    std::vector<std::pair<std::string, std::string>> FileOperations() override;
 
     std::string ToString();
 

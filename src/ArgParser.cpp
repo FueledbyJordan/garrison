@@ -65,3 +65,15 @@ const cxxopts::OptionValue & ArgParser::operator[](const std::string & option) c
 {
     return (*_args)[option];
 }
+
+std::unordered_map<std::string, std::string> ArgParser::IoDirections()
+{
+	std::unordered_map<std::string, std::string> map;
+	return map;
+}
+
+std::vector<std::pair<std::string, std::string>> ArgParser::FileOperations()
+{
+	std::vector<std::pair<std::string, std::string>> vec;
+	return vec;
+}
