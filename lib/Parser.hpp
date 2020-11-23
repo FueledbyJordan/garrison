@@ -18,7 +18,6 @@ public:
     ConfigParser & Cfg() const;
 
 	std::string ToString();
-
 	std::vector<std::pair<std::string, std::string>> FileOperations();
 
 private:

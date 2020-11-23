@@ -4,6 +4,7 @@
 #include "Utilities.hpp"
 
 #include <iostream>
+#include <string>
 
 ArgParser::ArgParser(int argc, char ** argv) : _argc(argc), _argv(argv)
 {
@@ -62,10 +63,6 @@ void ArgParser::Read()
     if (_args->count("force"))
 		this->_force = true;
 
-	for (auto item : _links)
-	{
-		std::cout << item << std::endl;
-	}
 
 }
 

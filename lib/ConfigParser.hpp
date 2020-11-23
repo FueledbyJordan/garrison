@@ -11,9 +11,9 @@ class ConfigParser : public ParserBase
 public:
     ConfigParser(const std::string & configFilePath);
     ~ConfigParser();
-
     void Read() override;
-	std::string ToString() override;
+
+    std::string ToString() override;
 
 private:
 

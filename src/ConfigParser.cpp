@@ -1,7 +1,6 @@
 #include "ConfigParser.hpp"
-#include "GarrisonGlobals.hpp"
 #include "Utilities.hpp"
-
+#include "GarrisonGlobals.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -49,7 +48,7 @@ void ConfigParser::Read()
 		{
 			//TODO: print out config parsing error on lineNumber
 		}
-	}
+    }
 
     reader.close();
 
