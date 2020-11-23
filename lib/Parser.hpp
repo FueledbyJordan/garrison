@@ -3,6 +3,8 @@
 #include "ArgParser.hpp"
 #include "ConfigParser.hpp"
 
+#include <string>
+
 class Parser
 {
 
@@ -12,6 +14,8 @@ public:
 
     ArgParser & Cli() const;
     ConfigParser & Cfg() const;
+
+	std::string ToString();
 
 private:
     std::shared_ptr<ArgParser> _ap;

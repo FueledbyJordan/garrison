@@ -12,6 +12,7 @@ public:
     ~ArgParser();
 
     void Read() override;
+	std::string ToString() override;
 
     const cxxopts::OptionValue & operator[](const std::string & option) const;
 

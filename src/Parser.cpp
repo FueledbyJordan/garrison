@@ -17,3 +17,9 @@ ConfigParser & Parser::Cfg() const
 {
     return *_cp;
 }
+
+std::string Parser::ToString()
+{
+	std::string result = Cfg().ToString() + "\n" + Cli().ToString();
+	return result;
+}

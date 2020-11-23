@@ -14,6 +14,7 @@ public:
     ~ConfigParser();
 
     void Read() override;
+	std::string ToString() override;
 
 private:
 

@@ -15,17 +15,17 @@ std::vector<std::pair<std::string, std::string>> ParserBase::FileOperations()
 
 std::string ParserBase::ToString()
 {
-    std::string retval = "IO:\n";
+    std::string retval = "\tIO:\n";
     for (auto const & result : _ioDirections)
     {
-        retval += result.first + "\t:\t" + result.second + "\n";
+        retval += "\t\t" + result.first + "\t:\t" + result.second + "\n";
     }
 
-    retval += "\nOps:\n";
+    retval += "\n\tOps:\n";
 
     for (auto const & result : _fileOperations)
     {
-        retval += result.first + "\t:\t" + result.second + "\n";
+        retval += "\t\t" + result.first + "\t:\t" + result.second + "\n";
     }
 
     return retval;

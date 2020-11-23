@@ -64,6 +64,14 @@ void ArgParser::Read()
 
 }
 
+std::string ArgParser::ToString()
+{
+	std::string result = "Command Line:\n";
+	result += ParserBase::ToString();
+
+	return result;
+}
+
 void ArgParser::printHelpMessage()
 {
     std::cout << _opts->help() << std::endl;

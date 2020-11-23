@@ -12,8 +12,8 @@ public:
     ParserBase();
     ~ParserBase();
     virtual void Read() = 0;
+    virtual std::string ToString();
 
-    std::string ToString();
     std::unordered_map<std::string, std::string> IoDirections();
     std::vector<std::pair<std::string, std::string>> FileOperations();
 

@@ -8,7 +8,6 @@ ConfigParser::ConfigParser(const std::string & configFilePath) : _configFilePath
 {
     this->initialize();
     this->Read();
-//    std::cout << this->ToString();
 }
 
 ConfigParser::~ConfigParser(){}
@@ -49,6 +48,14 @@ void ConfigParser::Read()
 
     reader.close();
 
+}
+
+std::string ConfigParser::ToString()
+{
+	std::string result = "Config:\n";
+	result += ParserBase::ToString();
+
+	return result;
 }
 
 std::pair<std::string, std::string> ConfigParser::parseLine(const std::string & line, unsigned int lineNumber)
