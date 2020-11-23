@@ -22,6 +22,57 @@ void Utilities::trim(std::string &s) {
     rtrim(s);
 }
 
+void Utilities::Copy(const std::string & srcPath, const std::string & destPath, bool force)
+{
+	if (!(FileExists(srcPath) && UserHasReadPermissions(srcPath)))
+		return;
+
+	if (!(FileExists(destPath) && std::filesystem::is_directory(destPath) && UserHasWritePermissions(destPath)))
+		return;
+
+	std::filesystem::copy_options opts = force ? std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive
+		: std::filesystem::copy_options::skip_existing | std::filesystem::copy_options::recursive;
+
+	std::filesystem::copy(std::filesystem::path(srcPath), std::filesystem::path(destPath), opts);
+}
+
+void Utilities::Link(const std::string & srcPath, const std::string & destPath, bool force)
+{
+	if (!(FileExists(srcPath) && UserHasReadPermissions(srcPath)))
+		return;
+
+	if (!(FileExists(destPath) && std::filesystem::is_directory(destPath) && UserHasWritePermissions(destPath)))
+		return;
+
+	std::filesystem::path linkTarget = std::filesystem::path(destPath);
+
+	if (std::filesystem::is_directory(std::filesystem::path(srcPath)))
+	{
+		std::string file = GetFileName(srcPath);
+		linkTarget /= std::filesystem::path(file);
+	}
+
+	if ((std::filesystem::exists(linkTarget.string()) && force) || !std::filesystem::exists(linkTarget))
+		std::filesystem::create_symlink(std::filesystem::path(srcPath), linkTarget);
+}
+
+void Utilities::Delete(const std::string & path)
+{
+	if (!FileExists(path))
+		return;
+
+	if(!UserHasWritePermissions(path))
+		return;
+
+	std::filesystem::is_directory(path) ? std::filesystem::remove_all(std::filesystem::path(path))
+		: std::filesystem::remove(std::filesystem::path(path));
+}
+
+std::string Utilities::GetFileName(const std::string & path)
+{
+	return std::filesystem::path(path).filename().string();
+}
+
 bool Utilities::FileExists(const std::string & filePath)
 {
     return std::filesystem::exists(std::filesystem::path(filePath));
