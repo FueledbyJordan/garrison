@@ -6,17 +6,17 @@
 #include <unordered_set>
 #include <vector>
 
-class FileParser : public ParserBase
+class ConfigParser : public ParserBase
 {
 
 public:
-    FileParser(const std::string & configFilePath);
-    ~FileParser();
+    ConfigParser(const std::string & configFilePath);
+    ~ConfigParser();
     void Read() override;
     std::unordered_map<std::string, std::string> IoDirections() override;
     std::vector<std::pair<std::string, std::string>> FileOperations() override;
 
-    std::string ToString();
+    std::string ToString() override;
 
 private:
 

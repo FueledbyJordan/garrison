@@ -1,25 +1,25 @@
-#include "FileParser.hpp"
+#include "ConfigParser.hpp"
 #include "Utilities.hpp"
 #include "GarrisonGlobals.hpp"
 #include <fstream>
 #include <iostream>
 
-FileParser::FileParser(const std::string & configFilePath) : _configFilePath(configFilePath)
+ConfigParser::ConfigParser(const std::string & configFilePath) : _configFilePath(configFilePath)
 {
     this->initialize();
     this->Read();
 //    std::cout << this->ToString();
 }
 
-FileParser::~FileParser(){}
+ConfigParser::~ConfigParser(){}
 
-void FileParser::initialize()
+void ConfigParser::initialize()
 {
     _VALID_CFG_OPS.insert(_VALID_CFG_IO_OPS.begin(), _VALID_CFG_IO_OPS.end());
     _VALID_CFG_OPS.insert(_VALID_CFG_ACTION_OPS.begin(), _VALID_CFG_ACTION_OPS.end());
 }
 
-void FileParser::Read()
+void ConfigParser::Read()
 {
     if (!Utilities::FileExists(_configFilePath))
     {
@@ -51,7 +51,7 @@ void FileParser::Read()
 
 }
 
-std::string FileParser::ToString()
+std::string ConfigParser::ToString()
 {
     std::string retval = "IO:\n";
     for (auto const & result : _ioDirections)
@@ -69,7 +69,7 @@ std::string FileParser::ToString()
     return retval;
 }
 
-std::pair<std::string, std::string> FileParser::parseLine(const std::string & line, unsigned int lineNumber)
+std::pair<std::string, std::string> ConfigParser::parseLine(const std::string & line, unsigned int lineNumber)
 {
     std::string key;
     std::string val;
@@ -91,27 +91,27 @@ std::pair<std::string, std::string> FileParser::parseLine(const std::string & li
 
 }
 
-bool FileParser::validConfigOperation(std::string op)
+bool ConfigParser::validConfigOperation(std::string op)
 {
     return (_VALID_CFG_OPS.count(op) > 0);
 }
 
-bool FileParser::validConfigIoOperation(std::string op)
+bool ConfigParser::validConfigIoOperation(std::string op)
 {
     return (_VALID_CFG_IO_OPS.count(op) > 0);
 }
 
-bool FileParser::validConfigActionOperation(std::string op)
+bool ConfigParser::validConfigActionOperation(std::string op)
 {
     return (_VALID_CFG_ACTION_OPS.count(op) > 0);
 }
 
-std::unordered_map<std::string, std::string> FileParser::IoDirections()
+std::unordered_map<std::string, std::string> ConfigParser::IoDirections()
 {
     return _ioDirections;
 }
 
-std::vector<std::pair<std::string, std::string>> FileParser::FileOperations()
+std::vector<std::pair<std::string, std::string>> ConfigParser::FileOperations()
 {
     return _fileOperations;
 }
