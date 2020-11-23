@@ -12,11 +12,8 @@ class ConfigParser : public ParserBase
 public:
     ConfigParser(const std::string & configFilePath);
     ~ConfigParser();
-    void Read() override;
-    std::unordered_map<std::string, std::string> IoDirections() override;
-    std::vector<std::pair<std::string, std::string>> FileOperations() override;
 
-    std::string ToString() override;
+    void Read() override;
 
 private:
 
@@ -33,9 +30,5 @@ private:
     std::pair<std::string, std::string> parseLine(const std::string & line, unsigned int lineNumber);
 
     std::string _configFilePath;
-
-	//TODO: Can possibly convert these two structures to an unordered_multimap, and then they're redundant
-    std::unordered_map<std::string, std::string> _ioDirections;
-    std::vector<std::pair<std::string, std::string>> _fileOperations;
 
 };

@@ -106,29 +106,7 @@ void ArgParser::printHelpMessage()
     std::cout << _opts->help() << std::endl;
 }
 
-std::string ArgParser::ToString()
-{
-    std::string result = "";
-    for (auto arg : _args->arguments())
-    {
-        result += arg.key() + "\t:\t" + arg.value() + "\n";
-    }
-    return result;
-}
-
 const cxxopts::OptionValue & ArgParser::operator[](const std::string & option) const
 {
     return (*_args)[option];
-}
-
-std::unordered_map<std::string, std::string> ArgParser::IoDirections()
-{
-	std::unordered_map<std::string, std::string> map;
-	return map;
-}
-
-std::vector<std::pair<std::string, std::string>> ArgParser::FileOperations()
-{
-	std::vector<std::pair<std::string, std::string>> vec;
-	return vec;
 }

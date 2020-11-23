@@ -51,24 +51,6 @@ void ConfigParser::Read()
 
 }
 
-std::string ConfigParser::ToString()
-{
-    std::string retval = "IO:\n";
-    for (auto const & result : _ioDirections)
-    {
-        retval += result.first + "\t:\t" + result.second + "\n";
-    }
-
-    retval += "\nOps:\n";
-
-    for (auto const & result : _fileOperations)
-    {
-        retval += result.first + "\t:\t" + result.second + "\n";
-    }
-
-    return retval;
-}
-
 std::pair<std::string, std::string> ConfigParser::parseLine(const std::string & line, unsigned int lineNumber)
 {
     std::string key;
@@ -104,14 +86,4 @@ bool ConfigParser::validConfigIoOperation(std::string op)
 bool ConfigParser::validConfigActionOperation(std::string op)
 {
     return (_VALID_CFG_ACTION_OPS.count(op) > 0);
-}
-
-std::unordered_map<std::string, std::string> ConfigParser::IoDirections()
-{
-    return _ioDirections;
-}
-
-std::vector<std::pair<std::string, std::string>> ConfigParser::FileOperations()
-{
-    return _fileOperations;
 }

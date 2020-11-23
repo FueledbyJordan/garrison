@@ -13,12 +13,6 @@ public:
 
     void Read() override;
 
-    //TODO: implement these
-    std::unordered_map<std::string, std::string> IoDirections() override;
-    std::vector<std::pair<std::string, std::string>> FileOperations() override;
-
-    std::string ToString() override;
-
     const cxxopts::OptionValue & operator[](const std::string & option) const;
 
 private:
