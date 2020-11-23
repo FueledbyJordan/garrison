@@ -1,8 +1,6 @@
 #pragma once
 
 #include <string>
-#include <unordered_map>
-#include <unordered_set>
 #include <vector>
 
 class ParserBase
@@ -14,14 +12,23 @@ public:
     virtual void Read() = 0;
     virtual std::string ToString();
 
-    std::unordered_map<std::string, std::string> IoDirections();
-    std::vector<std::pair<std::string, std::string>> FileOperations();
+	std::string ConfigFilePath();
+	std::string Input();
+	std::string Output();
+
+	std::vector<std::string> Links();
+	std::vector<std::string> Copies();
+	std::vector<std::string> Excludes();
 
 protected:
 
-	//TODO: Can possibly convert these two structures to an unordered_multimap, and then they're redundant
-    std::unordered_map<std::string, std::string> _ioDirections;
-    std::vector<std::pair<std::string, std::string>> _fileOperations;
+	std::string _configFilePath;
+	std::string _input = ".";
+	std::string _output = "..";
+
+	std::vector<std::string> _links;
+	std::vector<std::string> _copies;
+	std::vector<std::string> _excludes;
 
 private:
 

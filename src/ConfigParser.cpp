@@ -1,22 +1,17 @@
 #include "ConfigParser.hpp"
-#include "Utilities.hpp"
 #include "GarrisonGlobals.hpp"
+#include "Utilities.hpp"
+
 #include <fstream>
 #include <iostream>
 
-ConfigParser::ConfigParser(const std::string & configFilePath) : _configFilePath(configFilePath)
+ConfigParser::ConfigParser(const std::string & configFilePath)
 {
-    this->initialize();
+	_configFilePath = configFilePath;
     this->Read();
 }
 
 ConfigParser::~ConfigParser(){}
-
-void ConfigParser::initialize()
-{
-    _VALID_CFG_OPS.insert(_VALID_CFG_IO_OPS.begin(), _VALID_CFG_IO_OPS.end());
-    _VALID_CFG_OPS.insert(_VALID_CFG_ACTION_OPS.begin(), _VALID_CFG_ACTION_OPS.end());
-}
 
 void ConfigParser::Read()
 {
@@ -34,17 +29,27 @@ void ConfigParser::Read()
     while (std::getline(reader, line))
     {
         parseResult = parseLine(line, lineNumber++);
-        if (validConfigOperation(parseResult.first))
-        {
-            if (validConfigIoOperation(parseResult.first))
-            {
-                _ioDirections[parseResult.first] = parseResult.second;
-            } else if(validConfigActionOperation(parseResult.first))
-            {
-                _fileOperations.push_back(parseResult);
-            }
-        }
-    }
+		Utilities::to_lower(parseResult.first);
+		if (parseResult.first.compare("link") == 0)
+		{
+			_links.push_back(parseResult.second);
+		} else if (parseResult.first.compare("exclude") == 0)
+		{
+			_excludes.push_back(parseResult.second);
+		} else if (parseResult.first.compare("copy") == 0)
+		{
+			_copies.push_back(parseResult.second);
+		} else if (parseResult.first.compare("input") == 0)
+		{
+			_input = parseResult.second;
+		} else if (parseResult.first.compare("output") == 0)
+		{
+			_output = parseResult.second;
+		} else
+		{
+			//TODO: print out config parsing error on lineNumber
+		}
+	}
 
     reader.close();
 
@@ -52,7 +57,7 @@ void ConfigParser::Read()
 
 std::string ConfigParser::ToString()
 {
-	std::string result = "Config:\n";
+	std::string result = "Config File Parser:\n";
 	result += ParserBase::ToString();
 
 	return result;
@@ -78,19 +83,4 @@ std::pair<std::string, std::string> ConfigParser::parseLine(const std::string & 
 
     return std::pair<std::string, std::string>(key, val);
 
-}
-
-bool ConfigParser::validConfigOperation(std::string op)
-{
-    return (_VALID_CFG_OPS.count(op) > 0);
-}
-
-bool ConfigParser::validConfigIoOperation(std::string op)
-{
-    return (_VALID_CFG_IO_OPS.count(op) > 0);
-}
-
-bool ConfigParser::validConfigActionOperation(std::string op)
-{
-    return (_VALID_CFG_ACTION_OPS.count(op) > 0);
 }

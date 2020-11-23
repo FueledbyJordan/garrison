@@ -1,33 +1,59 @@
 #include "ParserBase.hpp"
 
 ParserBase::ParserBase(){}
+
 ParserBase::~ParserBase(){}
-
-std::unordered_map<std::string, std::string> ParserBase::IoDirections()
-{
-    return _ioDirections;
-}
-
-std::vector<std::pair<std::string, std::string>> ParserBase::FileOperations()
-{
-    return _fileOperations;
-}
 
 std::string ParserBase::ToString()
 {
-    std::string retval = "\tIO:\n";
-    for (auto const & result : _ioDirections)
+    std::string retval = "\tSettings:\n";
+	retval += "\t\tConfig Path:\t:\t" +  _configFilePath + "\n";
+	retval += "\t\tInput Path: \t:\t" +  _input + "\n";
+	retval += "\t\tOutput Path:\t:\t" +  _output + "\n";
+
+    retval += "\n\tFile Operations:\n";
+    for (auto i : _links)
     {
-        retval += "\t\t" + result.first + "\t:\t" + result.second + "\n";
+        retval += "\t\tlink\t:\t" + i + "\n";
     }
-
-    retval += "\n\tOps:\n";
-
-    for (auto const & result : _fileOperations)
+    for (auto e : _excludes)
     {
-        retval += "\t\t" + result.first + "\t:\t" + result.second + "\n";
+        retval += "\t\texclude\t:\t" + e + "\n";
+    }
+    for (auto c : _copies)
+    {
+        retval += "\t\tcopy\t:\t" + c + "\n";
     }
 
     return retval;
 }
 
+std::string ParserBase::ConfigFilePath()
+{
+	return _configFilePath;
+}
+
+std::string ParserBase::Input()
+{
+	return _input;
+}
+
+std::string ParserBase::Output()
+{
+	return _output;
+}
+
+std::vector<std::string> ParserBase::Links()
+{
+	return _links;
+}
+
+std::vector<std::string> ParserBase::Copies()
+{
+	return _copies;
+}
+
+std::vector<std::string> ParserBase::Excludes()
+{
+	return _excludes;
+}

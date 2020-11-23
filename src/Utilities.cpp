@@ -22,6 +22,11 @@ void Utilities::trim(std::string &s) {
     rtrim(s);
 }
 
+void Utilities::to_lower(std::string &s)
+{
+	std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c){ return std::tolower(c); });
+}
+
 void Utilities::Copy(const std::string & srcPath, const std::string & destPath, bool force)
 {
 	if (!(FileExists(srcPath) && UserHasReadPermissions(srcPath)))
