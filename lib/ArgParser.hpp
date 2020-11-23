@@ -17,13 +17,14 @@ public:
     std::unordered_map<std::string, std::string> IoDirections() override;
     std::vector<std::pair<std::string, std::string>> FileOperations() override;
 
-    std::string ToString();
+    std::string ToString() override;
 
     const cxxopts::OptionValue & operator[](const std::string & option) const;
 
 private:
 
     void printHelpMessage();
+	bool didUserRespondYes(const std::string & query_response);
 
     std::shared_ptr<cxxopts::Options> _opts;
     std::shared_ptr<cxxopts::ParseResult> _args;
