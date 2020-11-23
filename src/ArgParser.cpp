@@ -1,9 +1,8 @@
 #include "ArgParser.hpp"
+#include "ConfigGenerator.hpp"
 #include "GarrisonGlobals.hpp"
 #include "Utilities.hpp"
 
-#include <algorithm>
-#include <cctype>
 #include <iostream>
 #include <string>
 
@@ -13,12 +12,12 @@ ArgParser::ArgParser(int argc, char ** argv) : _argc(argc), _argv(argv)
     _opts->add_options()
         ("i,input", "The directory where garrison looks for files.", cxxopts::value<std::string>()->default_value("."))
         ("o,output", "This is where garrison places your symlinks.", cxxopts::value<std::string>()->default_value(".."))
-        ("c,config", "The config file to use.  Garrison will read the configuration file and then will apply any given input parameters.", cxxopts::value<std::string>()->default_value("garrison.cfg"))
+        ("config", "The config file to use.  Garrison will read the configuration file and then will apply any given input parameters.", cxxopts::value<std::string>(_configFilePath)->default_value("garrison.cfg"))
         ("f,force", "Force the operation. This will overwrite existing links and files.", cxxopts::value<bool>()->default_value("false"))
-        ("I,include", "Include the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::string>())
-        ("E,exclude", "Exclude the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::string>())
-        ("C,copy", "Copy the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::string>())
-        ("g,generate", "Generate a configuration file.", cxxopts::value<bool>()->default_value("false"))
+        ("l,link", "Link the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::vector<std::string>>(_links))
+        ("e,exclude", "Exclude the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::vector<std::string>>(_excludes))
+        ("c,copy", "Copy the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::vector<std::string>>(_copies))
+        ("generate", "Generate a configuration file.", cxxopts::value<bool>()->default_value("false"))
         ("v,version", "Print version")
         ("h,help", "Print usage");
 
@@ -57,46 +56,20 @@ void ArgParser::Read()
 
     if (_args->count("generate"))
     {
-		bool overwrite_config = false;
-
-		if (Utilities::FileExists("garrison.cfg"))
-		{
-			std::string config_overwrite_query;
-			std::cout << "garrison.cfg already exists... Would you like to overwrite it?\t(Y/N)" << std::endl;
-			std::getline(std::cin, config_overwrite_query);
-			overwrite_config = didUserRespondYes(config_overwrite_query);
-		}
-
-		if (!Utilities::FileExists("garrison.cfg") || overwrite_config)
-		{
-			//TODO: Generate config
-			std::cout << "Generated Garrison config file in current directory." << std::endl;
-		}
-
+		ConfigGenerator::Generate();
         exit(Garrison::NO_ERR);
     }
 
+    if (_args->count("force"))
+		this->_force = true;
+
+
 }
 
-bool ArgParser::didUserRespondYes(const std::string & query_response)
+std::string ArgParser::ToString()
 {
-	bool result;
-	std::string response = query_response;
-
-	std::transform(response.begin(), response.end(), response.begin(), [](unsigned char c){ return std::tolower(c); });
-	Utilities::trim(response);
-
-	if (response.compare("y") == 0 || response.compare("yes") == 0)
-	{
-		result = true;
-	} else if (response.compare("n") == 0 || response.compare("no") == 0)
-	{
-		result = false;
-	} else
-	{
-		std::cout << "Response not valid. Exiting..." << std::endl;
-		result = false;
-	}
+	std::string result = "Command Line Parser:\n";
+	result += ParserBase::ToString();
 
 	return result;
 }
@@ -106,29 +79,7 @@ void ArgParser::printHelpMessage()
     std::cout << _opts->help() << std::endl;
 }
 
-std::string ArgParser::ToString()
+bool ArgParser::Force()
 {
-    std::string result = "";
-    for (auto arg : _args->arguments())
-    {
-        result += arg.key() + "\t:\t" + arg.value() + "\n";
-    }
-    return result;
-}
-
-const cxxopts::OptionValue & ArgParser::operator[](const std::string & option) const
-{
-    return (*_args)[option];
-}
-
-std::unordered_map<std::string, std::string> ArgParser::IoDirections()
-{
-	std::unordered_map<std::string, std::string> map;
-	return map;
-}
-
-std::vector<std::pair<std::string, std::string>> ArgParser::FileOperations()
-{
-	std::vector<std::pair<std::string, std::string>> vec;
-	return vec;
+	return _force;
 }

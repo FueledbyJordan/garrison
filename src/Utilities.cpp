@@ -22,6 +22,11 @@ void Utilities::trim(std::string &s) {
     rtrim(s);
 }
 
+void Utilities::to_lower(std::string &s)
+{
+	std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c){ return std::tolower(c); });
+}
+
 void Utilities::Copy(const std::string & srcPath, const std::string & destPath, bool force)
 {
 	if (!(FileExists(srcPath) && UserHasReadPermissions(srcPath)))
@@ -66,6 +71,11 @@ void Utilities::Delete(const std::string & path)
 
 	std::filesystem::is_directory(path) ? std::filesystem::remove_all(std::filesystem::path(path))
 		: std::filesystem::remove(std::filesystem::path(path));
+}
+
+std::string Utilities::GetAbsolutePath(const std::string & path)
+{
+	return std::filesystem::path(path).string();
 }
 
 std::string Utilities::GetFileName(const std::string & path)

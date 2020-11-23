@@ -1,8 +1,10 @@
 #pragma once
 
 #include "ParserBase.hpp"
+
 #include <cxxopts.hpp>
 #include <memory>
+#include <string>
 
 class ArgParser : public ParserBase
 {
@@ -12,22 +14,18 @@ public:
     ~ArgParser();
 
     void Read() override;
+	std::string ToString() override;
 
-    //TODO: implement these
-    std::unordered_map<std::string, std::string> IoDirections() override;
-    std::vector<std::pair<std::string, std::string>> FileOperations() override;
-
-    std::string ToString() override;
-
-    const cxxopts::OptionValue & operator[](const std::string & option) const;
+	bool Force();
 
 private:
 
     void printHelpMessage();
-	bool didUserRespondYes(const std::string & query_response);
 
     std::shared_ptr<cxxopts::Options> _opts;
     std::shared_ptr<cxxopts::ParseResult> _args;
+
+	bool _force = false;
 
     int _argc = 0;
     char ** _argv = nullptr;
