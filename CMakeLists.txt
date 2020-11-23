@@ -11,6 +11,7 @@ set(SRC_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ArgParser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/File.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FileList.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/ConfigGenerator.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ConfigParser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Parser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ParserBase.cpp

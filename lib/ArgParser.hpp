@@ -18,7 +18,6 @@ public:
 private:
 
     void printHelpMessage();
-	bool didUserRespondYes(const std::string & query_response);
 
     std::shared_ptr<cxxopts::Options> _opts;
     std::shared_ptr<cxxopts::ParseResult> _args;

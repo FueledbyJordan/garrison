@@ -68,6 +68,11 @@ void Utilities::Delete(const std::string & path)
 		: std::filesystem::remove(std::filesystem::path(path));
 }
 
+std::string Utilities::GetAbsolutePath(const std::string & path)
+{
+	return std::filesystem::path(path).string();
+}
+
 std::string Utilities::GetFileName(const std::string & path)
 {
 	return std::filesystem::path(path).filename().string();

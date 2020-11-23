@@ -1,4 +1,5 @@
 #include "ArgParser.hpp"
+#include "ConfigGenerator.hpp"
 #include "GarrisonGlobals.hpp"
 #include "Utilities.hpp"
 
@@ -57,48 +58,10 @@ void ArgParser::Read()
 
     if (_args->count("generate"))
     {
-		bool overwrite_config = false;
-
-		if (Utilities::FileExists("garrison.cfg"))
-		{
-			std::string config_overwrite_query;
-			std::cout << "garrison.cfg already exists... Would you like to overwrite it?\t(Y/N)" << std::endl;
-			std::getline(std::cin, config_overwrite_query);
-			overwrite_config = didUserRespondYes(config_overwrite_query);
-		}
-
-		if (!Utilities::FileExists("garrison.cfg") || overwrite_config)
-		{
-			//TODO: Generate config
-			std::cout << "Generated Garrison config file in current directory." << std::endl;
-		}
-
+		ConfigGenerator::Generate();
         exit(Garrison::NO_ERR);
     }
 
-}
-
-bool ArgParser::didUserRespondYes(const std::string & query_response)
-{
-	bool result;
-	std::string response = query_response;
-
-	std::transform(response.begin(), response.end(), response.begin(), [](unsigned char c){ return std::tolower(c); });
-	Utilities::trim(response);
-
-	if (response.compare("y") == 0 || response.compare("yes") == 0)
-	{
-		result = true;
-	} else if (response.compare("n") == 0 || response.compare("no") == 0)
-	{
-		result = false;
-	} else
-	{
-		std::cout << "Response not valid. Exiting..." << std::endl;
-		result = false;
-	}
-
-	return result;
 }
 
 void ArgParser::printHelpMessage()
