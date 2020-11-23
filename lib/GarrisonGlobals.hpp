@@ -1,7 +1,12 @@
 #pragma once
 
+#include <string>
+
 namespace Garrison
 {
+
+	const std::string VERSION = "0.0.1";
+
     enum ERROR_TYPES
     {
         NO_ERR = 0,
