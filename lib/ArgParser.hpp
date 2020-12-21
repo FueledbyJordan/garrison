@@ -14,6 +14,7 @@ public:
     ~ArgParser();
 
     void Read() override;
+
     std::string ToString() override;
 
     bool Force();

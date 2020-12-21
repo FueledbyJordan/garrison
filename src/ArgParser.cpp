@@ -67,7 +67,6 @@ void ArgParser::Read()
     if (_args->count("force"))
         this->_force = true;
 
-
 }
 
 std::string ArgParser::ToString()

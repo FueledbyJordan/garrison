@@ -9,6 +9,7 @@ public:
     static void rtrim(std::string &s);
     static void trim(std::string &s);
     static void to_lower(std::string &s);
+    static void remove_all(std::string &s, char c);
 
     static void Copy(const std::string & srcPath, const std::string & destPath, bool force = false);
     static void Link(const std::string & srcPath, const std::string & destPath, bool force = false);

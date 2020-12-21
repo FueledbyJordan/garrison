@@ -16,13 +16,13 @@ std::string ParserBase::ToString()
     {
         retval += "\t\tlink\t:\t" + i + "\n";
     }
-    for (auto e : _excludes)
-    {
-        retval += "\t\texclude\t:\t" + e + "\n";
-    }
     for (auto c : _copies)
     {
         retval += "\t\tcopy\t:\t" + c + "\n";
+    }
+    for (auto e : _excludes)
+    {
+        retval += "\t\texclude\t:\t" + e + "\n";
     }
 
     return retval;

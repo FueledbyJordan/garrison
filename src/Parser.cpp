@@ -2,10 +2,11 @@
 
 Parser::Parser(int argc, char ** argv)
 {
-    _ap = std::unique_ptr<ArgParser>(new ArgParser(argc, argv)); 
+    _ap = std::unique_ptr<ArgParser>(new ArgParser(argc, argv));
     _cp = std::unique_ptr<ConfigParser>(new ConfigParser(_ap->ConfigFilePath()));
 
     _force = Cli().Force();
+    _dryrun = Cli().DryRun();
     BuildFileOperations();
 }
 
@@ -32,7 +33,7 @@ std::string Parser::ToString()
     return result;
 }
 
-//TODO: Fix the population of the fileOperations
+//TODO: This is horribly inefficient... Fix the population of the fileOperations!
 void Parser::BuildFileOperations()
 {
     for (auto l : Cfg().Links())
@@ -40,14 +41,30 @@ void Parser::BuildFileOperations()
         _fileOperations.push_back(std::make_pair("Link", l));
     }
 
+    //TODO: Optimize this O(n^2)
     for (auto c : Cfg().Copies())
     {
-        _fileOperations.push_back(std::make_pair("Copy", c));
-    }
+        bool is_exclude_in_copy = false;
+        for (auto e : Cfg().Excludes())
+        {
+            if (e == c)
+            {
+                is_exclude_in_copy = true;
+                break;
+            }
+        }
 
-    for (auto e : Cfg().Excludes())
-    {
-        _fileOperations.push_back(std::make_pair("Exclude", e));
+        for (auto e : Cli().Excludes())
+        {
+            std::cout << e << std::endl;
+            if (e == c)
+            {
+                is_exclude_in_copy = true;
+                break;
+            }
+        }
+
+        if ( ! is_exclude_in_copy ) _fileOperations.push_back(std::make_pair("Copy", c));
     }
 
     for (auto l : Cli().Links())
@@ -55,13 +72,20 @@ void Parser::BuildFileOperations()
         _fileOperations.push_back(std::make_pair("Link", l));
     }
 
+    //TODO: Optimize this O(n^2)
     for (auto c : Cli().Copies())
     {
-        _fileOperations.push_back(std::make_pair("Copy", c));
+        bool is_exclude_in_copy = false;
+        for (auto e : Cli().Excludes())
+        {
+            if (e == c)
+            {
+                is_exclude_in_copy = true;
+                break;
+            }
+        }
+
+        if ( ! is_exclude_in_copy ) _fileOperations.push_back(std::make_pair("Copy", c));
     }
 
-    for (auto e : Cli().Excludes())
-    {
-        _fileOperations.push_back(std::make_pair("Exclude", e));
-    }
 }

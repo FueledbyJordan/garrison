@@ -29,6 +29,8 @@ void ConfigParser::Read()
     {
         parseResult = parseLine(line, lineNumber++);
         Utilities::to_lower(parseResult.first);
+        Utilities::remove_all(parseResult.second, '"');
+
         if (parseResult.first.compare("link") == 0)
         {
             _links.push_back(parseResult.second);

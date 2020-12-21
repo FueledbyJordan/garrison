@@ -28,5 +28,6 @@ private:
     void BuildFileOperations();
 
     bool _force = false;
+    bool _dryrun = false;
 
 };
