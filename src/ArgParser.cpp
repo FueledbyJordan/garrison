@@ -18,6 +18,7 @@ ArgParser::ArgParser(int argc, char ** argv) : _argc(argc), _argv(argv)
         ("e,exclude", "Exclude the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::vector<std::string>>(_excludes))
         ("c,copy", "Copy the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::vector<std::string>>(_copies))
         ("generate", "Generate a configuration file.", cxxopts::value<bool>()->default_value("false"))
+        ("d,dry-run", "Don't do anything, just print out what would happen.", cxxopts::value<bool>()->default_value("false"))
         ("v,version", "Print version")
         ("h,help", "Print usage");
 
@@ -60,6 +61,9 @@ void ArgParser::Read()
         exit(Garrison::NO_ERR);
     }
 
+    if (_args->count("dry-run"))
+        this->_dryrun = true;
+
     if (_args->count("force"))
         this->_force = true;
 
@@ -82,4 +86,9 @@ void ArgParser::printHelpMessage()
 bool ArgParser::Force()
 {
     return _force;
+}
+
+bool ArgParser::DryRun()
+{
+    return _dryrun;
 }

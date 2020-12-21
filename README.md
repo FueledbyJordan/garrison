@@ -32,6 +32,8 @@ Options:
 
 -g  --generate    Generate a sample config file.  Redirect the output of this to your config file.
 
+-d  --dry-run    Don't do anything. Just print out what would happen.
+
 -v --version    Show garrison version.
 
 -h --help    Show garrison help.
