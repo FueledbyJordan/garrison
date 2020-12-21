@@ -2,6 +2,10 @@
 #include <utility>
 #include <algorithm>
 #include <filesystem>
+#include <cstdlib>
+#include <regex>
+
+#include <iostream>
 
 void Utilities::ltrim(std::string &s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
@@ -75,7 +79,15 @@ void Utilities::Delete(const std::string & path)
 
 std::string Utilities::GetAbsolutePath(const std::string & path)
 {
-    return std::filesystem::path(path).string();
+    std::string subbed_path = std::regex_replace(path, std::regex("^~\\/"), "$HOME/");
+    std::smatch match;
+    while (std::regex_search(subbed_path, match, std::regex("\\$[A-Za-z0-9_]*")))
+    {
+        std::string env_var = match.str().substr(1, match.str().length() - 1);
+        subbed_path.replace(match.position(), match.length(), std::getenv(env_var.c_str()));
+    }
+
+    return std::filesystem::absolute(subbed_path).string();
 }
 
 std::string Utilities::GetFileName(const std::string & path)
