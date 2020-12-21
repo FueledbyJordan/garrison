@@ -38,48 +38,57 @@ void Utilities::remove_all(std::string &s, char c)
 
 void Utilities::Copy(const std::string & srcPath, const std::string & destPath, bool force)
 {
-    if (!(FileExists(srcPath) && UserHasReadPermissions(srcPath)))
+
+    std::string abs_src_path = GetAbsolutePath(srcPath);
+    std::string abs_dest_path = GetAbsolutePath(destPath);
+
+    if (!(FileExists(abs_src_path) && UserHasReadPermissions(abs_src_path)))
         return;
 
-    if (!(FileExists(destPath) && std::filesystem::is_directory(destPath) && UserHasWritePermissions(destPath)))
+    if (!(FileExists(abs_dest_path) && std::filesystem::is_directory(abs_dest_path) && UserHasWritePermissions(abs_dest_path)))
         return;
 
     std::filesystem::copy_options opts = force ? std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive
         : std::filesystem::copy_options::skip_existing | std::filesystem::copy_options::recursive;
 
-    std::filesystem::copy(std::filesystem::path(srcPath), std::filesystem::path(destPath), opts);
+    std::filesystem::copy(std::filesystem::path(abs_src_path), std::filesystem::path(abs_dest_path), opts);
 }
 
 void Utilities::Link(const std::string & srcPath, const std::string & destPath, bool force)
 {
-    if (!(FileExists(srcPath) && UserHasReadPermissions(srcPath)))
+    std::string abs_src_path = GetAbsolutePath(srcPath);
+    std::string abs_dest_path = GetAbsolutePath(destPath);
+
+    if (!(FileExists(abs_src_path) && UserHasReadPermissions(abs_src_path)))
         return;
 
-    if (!(FileExists(destPath) && std::filesystem::is_directory(destPath) && UserHasWritePermissions(destPath)))
+    if (!(FileExists(abs_dest_path) && std::filesystem::is_directory(abs_dest_path) && UserHasWritePermissions(abs_dest_path)))
         return;
 
-    std::filesystem::path linkTarget = std::filesystem::path(destPath);
+    std::filesystem::path linkTarget = std::filesystem::path(abs_dest_path);
 
-    if (std::filesystem::is_directory(std::filesystem::path(srcPath)))
+    if (std::filesystem::is_directory(std::filesystem::path(abs_src_path)))
     {
-        std::string file = GetFileName(srcPath);
+        std::string file = GetFileName(abs_src_path);
         linkTarget /= std::filesystem::path(file);
     }
 
     if ((std::filesystem::exists(linkTarget.string()) && force) || !std::filesystem::exists(linkTarget))
-        std::filesystem::create_symlink(std::filesystem::path(srcPath), linkTarget);
+        std::filesystem::create_symlink(std::filesystem::path(abs_src_path), linkTarget);
 }
 
 void Utilities::Delete(const std::string & path)
 {
-    if (!FileExists(path))
+    std::string abs_path = GetAbsolutePath(path);
+
+    if (!FileExists(abs_path))
         return;
 
-    if(!UserHasWritePermissions(path))
+    if(!UserHasWritePermissions(abs_path))
         return;
 
-    std::filesystem::is_directory(path) ? std::filesystem::remove_all(std::filesystem::path(path))
-        : std::filesystem::remove(std::filesystem::path(path));
+    std::filesystem::is_directory(abs_path) ? std::filesystem::remove_all(std::filesystem::path(abs_path))
+        : std::filesystem::remove(std::filesystem::path(abs_path));
 }
 
 std::string Utilities::GetAbsolutePath(const std::string & path)

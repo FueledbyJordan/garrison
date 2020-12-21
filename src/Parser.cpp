@@ -1,16 +1,48 @@
 #include "Parser.hpp"
+#include "GarrisonGlobals.hpp"
 
 Parser::Parser(int argc, char ** argv)
 {
     _ap = std::unique_ptr<ArgParser>(new ArgParser(argc, argv));
     _cp = std::unique_ptr<ConfigParser>(new ConfigParser(_ap->ConfigFilePath()));
 
+    _input  = !Cfg().Input().empty() ? Cfg().Input() : Cli().Input();
+    _output = !Cfg().Output().empty() ? Cfg().Output() : Cli().Output();
+
+    if (_input.empty() || _output.empty()) exit(Garrison::CLI_ARG_ERR);
+
     _force = Cli().Force();
-    _dryrun = Cli().DryRun();
+    _dryRun = Cli().DryRun();
     BuildFileOperations();
+
+    Execute();
 }
 
 Parser::~Parser(){}
+
+void Parser::Execute()
+{
+    if (_dryRun)
+    {
+        //TODO: PRINT A PRETTY TREE WITH ALL THE FILES
+        std::cout << ToString() << std::endl;
+        return;
+    }
+
+    //TODO: SOMETHING WITH THE FILE LIST
+    /*
+    for (auto f : _fileOperations) {
+        //TODO: If it's a relative path, append it to _fromPath, else use absolute path
+        if (f.first.compare("link")) 
+            Utilities::Link(f.second, to, _force);
+        else if (f.first.compare("copy"))
+            Utilities::Copy(f.second, to, _force);
+        else if (f.first.compare("exclude"))
+            Utilities::Delete(path);
+    }
+    */
+
+}
 
 ArgParser & Parser::Cli() const
 {

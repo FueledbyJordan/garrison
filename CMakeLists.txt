@@ -9,8 +9,6 @@ configure_file(${CMAKE_SOURCE_DIR}/garrison.cfg ${CMAKE_BINARY_DIR} COPYONLY)
 set(LIB_FILE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(SRC_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ArgParser.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/File.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/FileList.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ConfigGenerator.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ConfigParser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Parser.cpp

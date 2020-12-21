@@ -28,7 +28,7 @@ private:
     std::shared_ptr<cxxopts::ParseResult> _args;
 
     bool _force = false;
-    bool _dryrun = false;
+    bool _dryRun = false;
 
     int _argc = 0;
     char ** _argv = nullptr;

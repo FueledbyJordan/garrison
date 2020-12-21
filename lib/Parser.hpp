@@ -14,6 +14,8 @@ public:
     Parser(int argc, char ** argv);
     ~Parser();
 
+    void Execute();
+
     ArgParser & Cli() const;
     ConfigParser & Cfg() const;
 
@@ -27,7 +29,10 @@ private:
     std::vector<std::pair<std::string, std::string>> _fileOperations;
     void BuildFileOperations();
 
+    std::string _input = "";
+    std::string _output = "";
+
     bool _force = false;
-    bool _dryrun = false;
+    bool _dryRun = false;
 
 };
