@@ -14,9 +14,9 @@ public:
     ~ArgParser();
 
     void Read() override;
-	std::string ToString() override;
+    std::string ToString() override;
 
-	bool Force();
+    bool Force();
 
 private:
 
@@ -25,7 +25,7 @@ private:
     std::shared_ptr<cxxopts::Options> _opts;
     std::shared_ptr<cxxopts::ParseResult> _args;
 
-	bool _force = false;
+    bool _force = false;
 
     int _argc = 0;
     char ** _argv = nullptr;

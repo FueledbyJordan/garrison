@@ -5,5 +5,5 @@ const std::string ConfigGenerator::_config = "input = .\noutput = ..\ninclude = 
 
 void ConfigGenerator::Generate()
 {
-	std::cout << _config << std::endl;
+    std::cout << _config << std::endl;
 }

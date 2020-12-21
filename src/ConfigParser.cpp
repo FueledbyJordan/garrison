@@ -6,7 +6,7 @@
 
 ConfigParser::ConfigParser(const std::string & configFilePath)
 {
-	_configFilePath = configFilePath;
+    _configFilePath = configFilePath;
     this->Read();
 }
 
@@ -28,26 +28,26 @@ void ConfigParser::Read()
     while (std::getline(reader, line))
     {
         parseResult = parseLine(line, lineNumber++);
-		Utilities::to_lower(parseResult.first);
-		if (parseResult.first.compare("link") == 0)
-		{
-			_links.push_back(parseResult.second);
-		} else if (parseResult.first.compare("exclude") == 0)
-		{
-			_excludes.push_back(parseResult.second);
-		} else if (parseResult.first.compare("copy") == 0)
-		{
-			_copies.push_back(parseResult.second);
-		} else if (parseResult.first.compare("input") == 0)
-		{
-			_input = parseResult.second;
-		} else if (parseResult.first.compare("output") == 0)
-		{
-			_output = parseResult.second;
-		} else
-		{
-			//TODO: print out config parsing error on lineNumber
-		}
+        Utilities::to_lower(parseResult.first);
+        if (parseResult.first.compare("link") == 0)
+        {
+            _links.push_back(parseResult.second);
+        } else if (parseResult.first.compare("exclude") == 0)
+        {
+            _excludes.push_back(parseResult.second);
+        } else if (parseResult.first.compare("copy") == 0)
+        {
+            _copies.push_back(parseResult.second);
+        } else if (parseResult.first.compare("input") == 0)
+        {
+            _input = parseResult.second;
+        } else if (parseResult.first.compare("output") == 0)
+        {
+            _output = parseResult.second;
+        } else
+        {
+            //TODO: print out config parsing error on lineNumber
+        }
     }
 
     reader.close();
@@ -56,10 +56,10 @@ void ConfigParser::Read()
 
 std::string ConfigParser::ToString()
 {
-	std::string result = "Config File Parser:\n";
-	result += ParserBase::ToString();
+    std::string result = "Config File Parser:\n";
+    result += ParserBase::ToString();
 
-	return result;
+    return result;
 }
 
 std::pair<std::string, std::string> ConfigParser::parseLine(const std::string & line, unsigned int lineNumber)

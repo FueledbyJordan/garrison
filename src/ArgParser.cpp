@@ -50,28 +50,28 @@ void ArgParser::Read()
 
     if (_args->count("version"))
     {
-		std::cout << "Garrison Version:\t" << Garrison::VERSION << std::endl;
+        std::cout << "Garrison Version:\t" << Garrison::VERSION << std::endl;
         exit(Garrison::NO_ERR);
     }
 
     if (_args->count("generate"))
     {
-		ConfigGenerator::Generate();
+        ConfigGenerator::Generate();
         exit(Garrison::NO_ERR);
     }
 
     if (_args->count("force"))
-		this->_force = true;
+        this->_force = true;
 
 
 }
 
 std::string ArgParser::ToString()
 {
-	std::string result = "Command Line Parser:\n";
-	result += ParserBase::ToString();
+    std::string result = "Command Line Parser:\n";
+    result += ParserBase::ToString();
 
-	return result;
+    return result;
 }
 
 void ArgParser::printHelpMessage()
@@ -81,5 +81,5 @@ void ArgParser::printHelpMessage()
 
 bool ArgParser::Force()
 {
-	return _force;
+    return _force;
 }

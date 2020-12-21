@@ -5,7 +5,7 @@
 namespace Garrison
 {
 
-	const std::string VERSION = "0.0.1";
+    const std::string VERSION = "0.0.1";
 
     enum ERROR_TYPES
     {

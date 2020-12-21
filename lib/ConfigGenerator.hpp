@@ -7,12 +7,12 @@ class ConfigGenerator
 {
 
 public:
-	static void Generate();
+    static void Generate();
 
 private:
-	static const std::string _config;
+    static const std::string _config;
 
-	ConfigGenerator(){};
-	~ConfigGenerator(){};
+    ConfigGenerator(){};
+    ~ConfigGenerator(){};
 
 };

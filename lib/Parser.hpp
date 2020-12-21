@@ -17,16 +17,16 @@ public:
     ArgParser & Cli() const;
     ConfigParser & Cfg() const;
 
-	std::string ToString();
-	std::vector<std::pair<std::string, std::string>> FileOperations();
+    std::string ToString();
+    std::vector<std::pair<std::string, std::string>> FileOperations();
 
 private:
     std::shared_ptr<ArgParser> _ap;
     std::shared_ptr<ConfigParser> _cp;
 
-	std::vector<std::pair<std::string, std::string>> _fileOperations;
-	void BuildFileOperations();
+    std::vector<std::pair<std::string, std::string>> _fileOperations;
+    void BuildFileOperations();
 
-	bool _force = false;
+    bool _force = false;
 
 };

@@ -7,9 +7,9 @@ ParserBase::~ParserBase(){}
 std::string ParserBase::ToString()
 {
     std::string retval = "\tSettings:\n";
-	retval += "\t\tConfig Path:\t:\t" +  _configFilePath + "\n";
-	retval += "\t\tInput Path: \t:\t" +  _input + "\n";
-	retval += "\t\tOutput Path:\t:\t" +  _output + "\n";
+    retval += "\t\tConfig Path:\t:\t" +  _configFilePath + "\n";
+    retval += "\t\tInput Path: \t:\t" +  _input + "\n";
+    retval += "\t\tOutput Path:\t:\t" +  _output + "\n";
 
     retval += "\n\tFile Operations:\n";
     for (auto i : _links)
@@ -30,30 +30,30 @@ std::string ParserBase::ToString()
 
 std::string ParserBase::ConfigFilePath()
 {
-	return _configFilePath;
+    return _configFilePath;
 }
 
 std::string ParserBase::Input()
 {
-	return _input;
+    return _input;
 }
 
 std::string ParserBase::Output()
 {
-	return _output;
+    return _output;
 }
 
 std::vector<std::string> ParserBase::Links()
 {
-	return _links;
+    return _links;
 }
 
 std::vector<std::string> ParserBase::Copies()
 {
-	return _copies;
+    return _copies;
 }
 
 std::vector<std::string> ParserBase::Excludes()
 {
-	return _excludes;
+    return _excludes;
 }
