@@ -29,6 +29,8 @@ void ConfigParser::Read()
     {
         parseResult = parseLine(line, lineNumber++);
         Utilities::to_lower(parseResult.first);
+
+        //TODO: Only remove outer if no alphanumeric chars are outside
         Utilities::remove_all(parseResult.second, '"');
 
         if (parseResult.first.compare("link") == 0)
@@ -46,9 +48,6 @@ void ConfigParser::Read()
         } else if (parseResult.first.compare("output") == 0)
         {
             _output = parseResult.second;
-        } else
-        {
-            //TODO: print out config parsing error on lineNumber
         }
     }
 

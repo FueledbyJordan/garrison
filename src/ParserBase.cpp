@@ -6,7 +6,7 @@ ParserBase::~ParserBase(){}
 
 std::string ParserBase::ToString()
 {
-    std::string retval = "\tSettings:\n";
+    std::string retval = "\tI/O Settings:\n";
     retval += "\t\tConfig Path:\t:\t" +  _configFilePath + "\n";
     retval += "\t\tInput Path: \t:\t" +  _input + "\n";
     retval += "\t\tOutput Path:\t:\t" +  _output + "\n";

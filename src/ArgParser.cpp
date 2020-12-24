@@ -14,8 +14,8 @@ ArgParser::ArgParser(int argc, char ** argv) : _argc(argc), _argv(argv)
         ("o,output", "This is where garrison places your symlinks.", cxxopts::value<std::string>(_output))
         ("config", "The config file to use.  Garrison will read the configuration file and then will apply any given input parameters.", cxxopts::value<std::string>(_configFilePath)->default_value("garrison.cfg"))
         ("l,link", "Link the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::vector<std::string>>(_links))
-        ("e,exclude", "Exclude the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::vector<std::string>>(_excludes))
         ("c,copy", "Copy the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::vector<std::string>>(_copies))
+        ("e,exclude", "Exclude the files and directories that match the provided regex pattern. This can be called multiple times.", cxxopts::value<std::vector<std::string>>(_excludes))
         ("generate", "Generate a configuration file.")
         ("f,force", "Force the operation. This will overwrite existing links and files.")
         ("d,dry-run", "Don't do anything, just print out what would happen.")
@@ -72,6 +72,11 @@ void ArgParser::Read()
 std::string ArgParser::ToString()
 {
     std::string result = "Command Line Parser:\n";
+
+    result += "\tCLI Args\n";
+    result += this->_force ? "\t\tForce\t:\tTrue\n" : "\t\tForce\t:\tFalse\n";
+    result += this->_dryRun ? "\t\tDry Run\t:\tTrue\n" : "\t\tDry Run\t:\tFalse\n";
+    result += "\n";
     result += ParserBase::ToString();
 
     return result;
