@@ -38,20 +38,33 @@ void Utilities::remove_all(std::string &s, char c)
 
 void Utilities::Copy(const std::string & srcPath, const std::string & destPath, bool force)
 {
-
     std::string abs_src_path = GetAbsolutePath(srcPath);
-    std::string abs_dest_path = GetAbsolutePath(destPath);
+    std::string abs_dest_path = BuildOutputPath(abs_src_path, GetAbsolutePath(destPath));
+    std::filesystem::path copyTarget = std::filesystem::path(abs_dest_path);
 
-    if (!(FileExists(abs_src_path) && UserHasReadPermissions(abs_src_path)))
+    if (!FileExists(abs_src_path) || !UserHasReadPermissions(abs_src_path))
+    {
+        std::cout << "Could not copy " << abs_src_path << " because it does not exist or you do not have permissions." << std::endl;
         return;
+    }
 
-    if (!(FileExists(abs_dest_path) && std::filesystem::is_directory(abs_dest_path) && UserHasWritePermissions(abs_dest_path)))
+    if (!UserHasWritePermissions(GetAbsolutePath(destPath)))
+    {
+        std::cout << "Could not copy to " << abs_dest_path << " because you do not have permissions." << std::endl;
         return;
+    }
+
+    if ((FileExists(abs_dest_path) && ! force)) // TODO: add or if directory isn't writeable
+    {
+        std::cout << "Could not copy to " << abs_dest_path << " because it already exists." << std::endl;
+        return;
+    }
 
     std::filesystem::copy_options opts = force ? std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive
         : std::filesystem::copy_options::skip_existing | std::filesystem::copy_options::recursive;
 
-    std::filesystem::copy(std::filesystem::path(abs_src_path), std::filesystem::path(abs_dest_path), opts);
+    std::cout << std::filesystem::path(abs_src_path) << "\t->\t" << copyTarget << std::endl;
+    std::filesystem::copy(std::filesystem::path(abs_src_path), copyTarget, opts);
 }
 
 void Utilities::Link(const std::string & srcPath, const std::string & destPath, bool force)

@@ -32,12 +32,13 @@ void Parser::Execute()
 
     //TODO: SOMETHING WITH THE FILE LIST
     for (auto f : _fileOperations) {
-        if (f.first.compare("Link") == 0) 
+        if (f.first.compare("Link") == 0)
         {
             Utilities::Link(f.second, _output, _force);
+        } else if (f.first.compare("Copy") == 0)
+        {
+            Utilities::Copy(f.second, _output, _force);
         }
-        //else if (f.first.compare("copy"))
-        //    Utilities::Copy(f.second, _output, _force);
         //else if (f.first.compare("exclude"))
         //    Utilities::Delete(path);
     }
