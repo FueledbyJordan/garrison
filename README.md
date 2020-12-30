@@ -46,14 +46,14 @@ An example configuration file:
 ```
 # Some comment in your garrison.cfg
 Input = .
-Output = /home/garrison\_user
-Include = "\.vim/"
-Include = "\.bashrc/"
-Include += "\.bash_aliases"
-Copy = "\.directory\_to\_copy/"
-Exclude = "\.files/some_secret_file"
-Exclude += "\.vim/some_secret_file"
-Exclude += "\.directory_to_copy/some_file_to_leave_out"
+Output = /home/garrison_user
+Include = ".vim/"
+Include = ".bashrc/"
+Include += ".bash_aliases"
+Copy = ".directory_to_copy/"
+Exclude = ".files/some_secret_file"
+Exclude += ".vim/some_secret_file"
+Exclude += ".directory_to_copy/some_file_to_leave_out"
 ```
 
 ## Alternative Programs
