@@ -57,15 +57,26 @@ void Utilities::Copy(const std::string & srcPath, const std::string & destPath, 
 void Utilities::Link(const std::string & srcPath, const std::string & destPath, bool force)
 {
     std::string abs_src_path = GetAbsolutePath(srcPath);
-    std::string abs_dest_path = GetAbsolutePath(destPath);
-
-    if (!(FileExists(abs_src_path) && UserHasReadPermissions(abs_src_path)))
-        return;
-
-    if (!(FileExists(abs_dest_path) && std::filesystem::is_directory(abs_dest_path) && UserHasWritePermissions(abs_dest_path)))
-        return;
-
+    std::string abs_dest_path = BuildOutputPath(abs_src_path, GetAbsolutePath(destPath));
     std::filesystem::path linkTarget = std::filesystem::path(abs_dest_path);
+
+    if (!FileExists(abs_src_path) || !UserHasReadPermissions(abs_src_path))
+    {
+        std::cout << "Could not link " << abs_src_path << " because it does not exist or you do not have permissions." << std::endl;
+        return;
+    }
+
+    if (!UserHasWritePermissions(GetAbsolutePath(destPath)))
+    {
+        std::cout << "Could not link to " << abs_dest_path << " because it you do not have permissions." << std::endl;
+        return;
+    }
+
+    if ((FileExists(abs_dest_path) && ! force)) // TODO: add or if directory isn't writeable
+    {
+        std::cout << "Could not link to " << abs_dest_path << " because it already exists." << std::endl;
+        return;
+    }
 
     if (std::filesystem::is_directory(std::filesystem::path(abs_src_path)))
     {
@@ -73,8 +84,11 @@ void Utilities::Link(const std::string & srcPath, const std::string & destPath, 
         linkTarget /= std::filesystem::path(file);
     }
 
-    if ((std::filesystem::exists(linkTarget.string()) && force) || !std::filesystem::exists(linkTarget))
-        std::filesystem::create_symlink(std::filesystem::path(abs_src_path), linkTarget);
+    if (std::filesystem::exists(linkTarget) && force)
+        std::filesystem::remove(std::filesystem::path(linkTarget));
+
+    std::cout << std::filesystem::path(abs_src_path) << "\t->\t" << linkTarget << std::endl;
+    std::filesystem::create_symlink(std::filesystem::path(abs_src_path), linkTarget);
 }
 
 void Utilities::Delete(const std::string & path)
@@ -91,6 +105,23 @@ void Utilities::Delete(const std::string & path)
         : std::filesystem::remove(std::filesystem::path(abs_path));
 }
 
+std::string Utilities::FixDots(const std::string & path)
+{
+    //TODO: Test this well
+    std::string subbed_path = std::regex_replace(path, std::regex("\\/\\.\\/"), "/");
+    subbed_path = std::regex_replace(subbed_path, std::regex("\\/\\.$"), "");
+    subbed_path = std::regex_replace(subbed_path, std::regex("\\/[A-Za-z0-9_]*\\/\\.\\."), "");
+    return subbed_path;
+}
+
+std::string Utilities::BuildOutputPath(const std::string & inputPath, const std::string & outputPath)
+{
+    std::string inputFile = GetFileName(inputPath);
+    std::string absOutputPath = GetAbsolutePath(outputPath);
+
+    return absOutputPath + "/" + inputFile;
+}
+
 std::string Utilities::GetAbsolutePath(const std::string & path)
 {
     std::string subbed_path = std::regex_replace(path, std::regex("^~\\/"), "$HOME/");
@@ -101,7 +132,7 @@ std::string Utilities::GetAbsolutePath(const std::string & path)
         subbed_path.replace(match.position(), match.length(), std::getenv(env_var.c_str()));
     }
 
-    return std::filesystem::absolute(subbed_path).string();
+    return FixDots(std::filesystem::absolute(subbed_path).string());
 }
 
 std::string Utilities::GetFileName(const std::string & path)

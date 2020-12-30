@@ -15,8 +15,10 @@ public:
     static void Link(const std::string & srcPath, const std::string & destPath, bool force = false);
     static void Delete(const std::string & path);
 
+    static std::string BuildOutputPath(const std::string & inputPath, const std::string & outputPath);
     static std::string GetAbsolutePath(const std::string & path);
     static std::string GetFileName(const std::string & path);
+    static std::string FixDots(const std::string & path);
 
     static bool FileExists(const std::string & filePath);
     static bool UserHasReadPermissions(const std::string & path);

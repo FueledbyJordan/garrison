@@ -1,5 +1,6 @@
 #include "Parser.hpp"
 #include "GarrisonGlobals.hpp"
+#include "Utilities.hpp"
 
 Parser::Parser(int argc, char ** argv)
 {
@@ -30,18 +31,16 @@ void Parser::Execute()
     }
 
     //TODO: SOMETHING WITH THE FILE LIST
-    /*
     for (auto f : _fileOperations) {
-        //TODO: If it's a relative path, append it to _fromPath, else use absolute path
-        if (f.first.compare("link")) 
-            Utilities::Link(f.second, to, _force);
-        else if (f.first.compare("copy"))
-            Utilities::Copy(f.second, to, _force);
-        else if (f.first.compare("exclude"))
-            Utilities::Delete(path);
+        if (f.first.compare("Link") == 0) 
+        {
+            Utilities::Link(f.second, _output, _force);
+        }
+        //else if (f.first.compare("copy"))
+        //    Utilities::Copy(f.second, _output, _force);
+        //else if (f.first.compare("exclude"))
+        //    Utilities::Delete(path);
     }
-    */
-
 }
 
 ArgParser & Parser::Cli() const
