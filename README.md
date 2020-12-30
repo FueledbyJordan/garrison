@@ -24,11 +24,11 @@ Options:
 
 -f --force    Force the operation. Note that this will overwrite existing links and files.
 
--I "REGEX" --Include "<FILE_NAME>"    Include the provided file or directory. This can be called multiple times.
+-l "FILE_NAME" --Link "<FILE_NAME>"    Include the provided file or directory. This can be called multiple times.
 
--C "REGEX" --Copy "<FILE_NAME>"    Copy the provided file or directory. This can be called multiple times.
+-C "FILE_NAME" --Copy "<FILE_NAME>"    Copy the provided file or directory. This can be called multiple times.
 
--E "REGEX" --Exclude "<FILE_NAME>"    Exclude the provided file or directory. This can be called multiple times.
+-E "FILE_NAME" --Exclude "<FILE_NAME>"    Exclude the provided file or directory. This can be called multiple times.
 
 -g  --generate    Generate a sample config file.  Redirect the output of this to your config file.
 
@@ -47,12 +47,13 @@ An example configuration file:
 # Some comment in your garrison.cfg
 Input = .
 Output = /home/garrison\_user
-Include = "^\.vim\/" "^\.bashrc" "^\.files"
-Include += "^\.bash_aliases"
-Copy = "^\.directory\_to\_copy\\/"
-Exclude = "^\.files\/some_secret_file" "^\.files\/some_other_secret_file"
-Exclude += "^\.vim\/some_secret_file"
-Exclude += "^\.directory_to_copy\/some_file_to_leave_out"
+Include = "\.vim/"
+Include = "\.bashrc/"
+Include += "\.bash_aliases"
+Copy = "\.directory\_to\_copy/"
+Exclude = "\.files/some_secret_file"
+Exclude += "\.vim/some_secret_file"
+Exclude += "\.directory_to_copy/some_file_to_leave_out"
 ```
 
 ## Alternative Programs
