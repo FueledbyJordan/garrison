@@ -70,8 +70,7 @@ void Utilities::Copy(const std::string & srcPath, const std::string & destPath, 
 void Utilities::Link(const std::string & srcPath, const std::string & destPath, bool force)
 {
     std::string abs_src_path = GetAbsolutePath(srcPath);
-    std::string abs_dest_path = BuildOutputPath(abs_src_path, GetAbsolutePath(destPath));
-    std::filesystem::path linkTarget = std::filesystem::path(abs_dest_path);
+    std::filesystem::path linkTarget = std::filesystem::path(destPath);
 
     if (!FileExists(abs_src_path) || !UserHasReadPermissions(abs_src_path))
     {
@@ -81,26 +80,21 @@ void Utilities::Link(const std::string & srcPath, const std::string & destPath, 
 
     if (!UserHasWritePermissions(GetAbsolutePath(destPath)))
     {
-        std::cout << "Could not link to " << abs_dest_path << " because it you do not have permissions." << std::endl;
+        std::cout << "Could not link to " << linkTarget.string() << " because it you do not have permissions." << std::endl;
         return;
     }
 
-    if ((FileExists(abs_dest_path) && ! force)) // TODO: add or if directory isn't writeable
+    if ((FileExists(linkTarget.string()) && ! force)) // TODO: add or if directory isn't writeable
     {
-        std::cout << "Could not link to " << abs_dest_path << " because it already exists." << std::endl;
+        std::cout << "Could not link to " << linkTarget.string() << " because it already exists." << std::endl;
         return;
-    }
-
-    if (std::filesystem::is_directory(std::filesystem::path(abs_src_path)))
-    {
-        std::string file = GetFileName(abs_src_path);
-        linkTarget /= std::filesystem::path(file);
     }
 
     if (std::filesystem::exists(linkTarget) && force)
         std::filesystem::remove(std::filesystem::path(linkTarget));
 
     std::cout << std::filesystem::path(abs_src_path) << "\t->\t" << linkTarget << std::endl;
+
     std::filesystem::create_symlink(std::filesystem::path(abs_src_path), linkTarget);
 }
 

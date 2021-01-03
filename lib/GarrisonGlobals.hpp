@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <map>
 
 namespace Garrison
 {
@@ -23,7 +24,22 @@ namespace Garrison
     {
         NO_OP = 0,
         LINK,
-        COPY
+        COPY,
+        EXCLUDE
     };
+
+    typedef OPERATION_TYPE OperationType;
+
+    const std::map<std::string, OperationType> StringToOp=
+        {{ "NO_OP", NO_OP },
+        { "LINK", LINK },
+        { "COPY", COPY },
+        { "EXCLUDE", EXCLUDE }};
+
+    const std::map<OperationType, std::string> OpToString =
+        {{ NO_OP, "NO_OP" },
+        { LINK, "LINK" },
+        { COPY, "COPY" },
+        { EXCLUDE, "EXCLUDE" }};
 
 }

@@ -7,7 +7,7 @@ class ConfigGenerator
 {
 
 public:
-    static void Generate();
+    static void generate();
 
 private:
     static const std::string _config;

@@ -1,7 +1,7 @@
 #pragma once
 
+#include "FileList.hpp"
 #include <string>
-#include <vector>
 
 class ParserBase
 {
@@ -9,27 +9,21 @@ class ParserBase
 public:
     ParserBase();
     ~ParserBase();
-    virtual void Read() = 0;
-    virtual std::string ToString();
+    virtual std::string toString();
 
-    std::string ConfigFilePath();
-    std::string Input();
-    std::string Output();
+    std::string configFilePath();
+    std::string input();
+    std::string output();
 
-    std::vector<std::string> Links();
-    std::vector<std::string> Copies();
-    std::vector<std::string> Excludes();
+    FileList fileList();
 
 protected:
+
+    virtual void read() = 0;
 
     std::string _configFilePath;
     std::string _input = ".";
     std::string _output = "..";
 
-    std::vector<std::string> _links;
-    std::vector<std::string> _copies;
-    std::vector<std::string> _excludes;
-
-private:
-
+    FileList _fileList;
 };

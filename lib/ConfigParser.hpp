@@ -3,7 +3,6 @@
 #include "ParserBase.hpp"
 
 #include <string>
-#include <vector>
 
 class ConfigParser : public ParserBase
 {
@@ -11,9 +10,9 @@ class ConfigParser : public ParserBase
 public:
     ConfigParser(const std::string & configFilePath);
     ~ConfigParser();
-    void Read() override;
+    void read() override;
 
-    std::string ToString() override;
+    std::string toString() override;
 
 private:
 

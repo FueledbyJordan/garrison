@@ -5,6 +5,7 @@
 #include <cxxopts.hpp>
 #include <memory>
 #include <string>
+#include <vector>
 
 class ArgParser : public ParserBase
 {
@@ -13,19 +14,23 @@ public:
     ArgParser(int argc, char ** argv);
     ~ArgParser();
 
-    void Read() override;
+    std::string toString() override;
 
-    std::string ToString() override;
-
-    bool Force();
-    bool DryRun();
+    bool force();
+    bool dryRun();
 
 private:
+
+    void read() override;
 
     void printHelpMessage();
 
     std::shared_ptr<cxxopts::Options> _opts;
     std::shared_ptr<cxxopts::ParseResult> _args;
+
+    std::vector<std::string> _links;
+    std::vector<std::string> _copies;
+    std::vector<std::string> _excludes;
 
     bool _force = false;
     bool _dryRun = false;

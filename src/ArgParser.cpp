@@ -22,7 +22,8 @@ ArgParser::ArgParser(int argc, char ** argv) : _argc(argc), _argv(argv)
         ("v,version", "Print version")
         ("h,help", "Print usage");
 
-    this->Read();
+    this->read();
+    _fileList.setDestination(_output);
 
 }
 
@@ -31,7 +32,7 @@ ArgParser::~ArgParser()
 
 }
 
-void ArgParser::Read()
+void ArgParser::read()
 {
     try
     {
@@ -57,7 +58,7 @@ void ArgParser::Read()
 
     if (_args->count("generate"))
     {
-        ConfigGenerator::Generate();
+        ConfigGenerator::generate();
         exit(Garrison::NO_ERR);
     }
 
@@ -67,9 +68,24 @@ void ArgParser::Read()
     if (_args->count("force"))
         this->_force = true;
 
+    for (auto l : _links)
+    {
+        _fileList.insert(File("link", l));
+    }
+
+    for (auto c : _copies)
+    {
+        _fileList.insert(File("copy", c));
+    }
+
+    for (auto e : _excludes)
+    {
+        _fileList.insert(File("exclude", e));
+    }
+
 }
 
-std::string ArgParser::ToString()
+std::string ArgParser::toString()
 {
     std::string result = "Command Line Parser:\n";
 
@@ -77,7 +93,7 @@ std::string ArgParser::ToString()
     result += this->_force ? "\t\tForce\t:\tTrue\n" : "\t\tForce\t:\tFalse\n";
     result += this->_dryRun ? "\t\tDry Run\t:\tTrue\n" : "\t\tDry Run\t:\tFalse\n";
     result += "\n";
-    result += ParserBase::ToString();
+    result += ParserBase::toString();
 
     return result;
 }
@@ -87,12 +103,12 @@ void ArgParser::printHelpMessage()
     std::cout << _opts->help() << std::endl;
 }
 
-bool ArgParser::Force()
+bool ArgParser::force()
 {
     return _force;
 }
 
-bool ArgParser::DryRun()
+bool ArgParser::dryRun()
 {
     return _dryRun;
 }

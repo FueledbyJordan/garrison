@@ -7,12 +7,13 @@
 ConfigParser::ConfigParser(const std::string & configFilePath)
 {
     _configFilePath = configFilePath;
-    this->Read();
+    read();
+    _fileList.setDestination(_output);
 }
 
 ConfigParser::~ConfigParser(){}
 
-void ConfigParser::Read()
+void ConfigParser::read()
 {
     if (!Utilities::FileExists(_configFilePath))
     {
@@ -33,16 +34,9 @@ void ConfigParser::Read()
         //TODO: Only remove outer if no alphanumeric chars are outside
         Utilities::remove_all(parseResult.second, '"');
 
-        if (parseResult.first.compare("link") == 0)
-        {
-            _links.push_back(parseResult.second);
-        } else if (parseResult.first.compare("exclude") == 0)
-        {
-            _excludes.push_back(parseResult.second);
-        } else if (parseResult.first.compare("copy") == 0)
-        {
-            _copies.push_back(parseResult.second);
-        } else if (parseResult.first.compare("input") == 0)
+        _fileList.insert(File(parseResult.first, parseResult.second));
+
+        if (parseResult.first.compare("input") == 0)
         {
             _input = parseResult.second;
         } else if (parseResult.first.compare("output") == 0)
@@ -53,14 +47,6 @@ void ConfigParser::Read()
 
     reader.close();
 
-}
-
-std::string ConfigParser::ToString()
-{
-    std::string result = "Config File Parser:\n";
-    result += ParserBase::ToString();
-
-    return result;
 }
 
 std::pair<std::string, std::string> ConfigParser::parseLine(const std::string & line, unsigned int lineNumber)
@@ -83,4 +69,12 @@ std::pair<std::string, std::string> ConfigParser::parseLine(const std::string & 
 
     return std::pair<std::string, std::string>(key, val);
 
+}
+
+std::string ConfigParser::toString()
+{
+    std::string result = "Config File Parser:\n";
+    result += ParserBase::toString();
+
+    return result;
 }
